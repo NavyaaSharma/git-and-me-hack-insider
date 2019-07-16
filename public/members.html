@@ -62,16 +62,16 @@
                 <ul class="navbar-nav mr-auto">
       
                   <li class="nav-item">
-                    <a class="nav-link waves-effect" href="">Home</a>
+                    <a class="nav-link waves-effect" href="/">Home</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link waves-effect" href="">About</a>
+                    <a class="nav-link waves-effect" href="/about">About</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link waves-effect" href="">Services</a>
+                    <a class="nav-link waves-effect" href="/services">Services</a>
                   </li>
                   <li class="nav-item">
-                    <a class="nav-link waves-effect" href="">Logout</a>
+                    <a class="nav-link waves-effect" href="/logout">Logout</a>
                   </li>
                 </ul>
               </div>
@@ -89,7 +89,7 @@
             </a>
       
             <div class="list-group list-group-flush">
-              <a href="dashboard.html" class="list-group-item active waves-effect">
+              <a href="/dashboard" class="list-group-item active waves-effect">
                 <i class="fas fa-chart-pie mr-3"></i>Dashboard
               </a>
               <a href="#" class="list-group-item list-group-item-action waves-effect">
@@ -139,7 +139,7 @@
             </div>
         <script id="template">
           <p>
-            <span>{{list}}</span>
+            <span><a href="{{url}}">{{list}}</a></span>
           </p>
         </script>
        

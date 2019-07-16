@@ -41,25 +41,30 @@
                         </button>
                         <div class="collapse navbar-collapse main-menu-item" id="navbarNav">
                             <ul class="navbar-nav">
-                                <li class="nav-item active">
-                                    <a class="nav-link" href="index.html">Home</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="about.html">about</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="services.html">Services</a>
-                                </li>
-                
-                                <li class="nav-item">
-                                    <a class="nav-link" href="signup.html">Signup</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link" href="/login">Login</a>
-                                 </li>
-                                 <li class="nav-item">
-                                        <a class="nav-link" href="/dashboard">Go To Dashboard</a>
-                                </li>
+                                {{#if name}}
+                        <li class="nav-item">
+                           <a class="nav-link" href="/dashboard">Go To Dashboard</a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="/logout">Logout</a>
+                        </li>
+                        {{else}}
+                        <li class="nav-item active">
+                           <a class="nav-link" href="/">Home</a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="/about">About</a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="/services">Services</a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="signup.html">Signup</a>
+                        </li>
+                        <li class="nav-item">
+                           <a class="nav-link" href="/login">Login</a>
+                        </li>
+                        {{/if}}
                             </ul>
                         </div>
                     </nav>

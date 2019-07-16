@@ -37,7 +37,21 @@ var auth = function(req, res, next) {
   var message1
   var sessEmail
 app.get('/',(req,res)=>{
-    res.sendFile(path.join(__dirname+'/public/index.html'))
+    res.render('index',{
+        name:Name
+    })
+})
+
+app.get('/about',(req,res)=>{
+    res.render('about',{
+        name:Name
+    })
+})
+
+app.get('/services',(req,res)=>{
+    res.render('services',{
+        name:Name
+    })
 })
 
 app.get('/userSignup',(req,res)=>{
@@ -185,7 +199,9 @@ app.get('/logout' ,auth, function(req,res){
         else
         {
             console.log("Session is destroyed, You are redirected to the login page.");
-            res.sendFile(path.join(__dirname+'/public/index.html'))
+            res.render('index',{
+                name:Name
+            })
     
         }
 		})
