@@ -1,8 +1,6 @@
 var mongoose=require('mongoose')
 var validator=require('validator')
 
-mongoose.connect('mongodb://localhost:27017/record',{useNewUrlParser:true})
-
 var users=new mongoose.Schema({
     name:{
         type:String,

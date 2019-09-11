@@ -2,7 +2,7 @@ var express=require('express')
 var path=require('path')
 var fetch=require('node-fetch')
 var session=require('express-session')
-var userRegister=require('./models/db-mongoose')
+var validator=require('validator')
 
 var app=express()
 app.use(express.static("public"))
@@ -12,6 +12,17 @@ app.use(session({
     resave: true,
     saveUninitialized: true
 }))
+
+//connection
+require('dotenv').config()
+var db=require('./config/prod')
+var mongoose=require('mongoose')
+mongoose.connect(db.Mongodb,{useNewUrlParser:true})
+
+//model
+var userRegister=require('./models/db-mongoose')
+
+var port=process.env.PORT || 3000
 
 var auth = function(req, res, next) {
     userSession = req.session;
@@ -60,21 +71,62 @@ app.get('/userSignup',(req,res)=>{
     var uemail = req.query.email;
     var pass=req.query.password;
 
-    user=new userRegister({
-        name:uname1+" "+uname2,
-        email:uemail,
-        password:pass
-    })
-    user.save()
-    res.render('signin',{
-        message:" "
-     })
+    let errors=[]
+        if(!validator.isEmail(uemail))
+        {
+            errors.push({text:"Invalid email"})
+        }
+        if(errors.length>0)
+        {
+            res.render('signup',{
+                errors:errors
+    
+            })
+        }
+        else{
+           userRegister.findOne({email:uemail}).then((user)=>{
+               let errors=[]
+               if(user)
+               {
+                errors.push({text:'User already exists'})
+                res.render('signup',{
+                    errors:errors
+        
+                })
+               }
+               else{
+                  
+                var newuser={
+                            name:uname1+" "+uname2,
+                            email:uemail,
+                            password:pass
+                        }
+                   new userRegister(newuser).save((err,user)=>{
+                       if(err)
+                       {
+                           throw err;
+                       }
+                       let success=[]
+                       if(user)
+                       {
+                           success.push({text:'Account created successfully! You can login now.'})
+                           res.render('signin',{
+                               success:success
+                           })
+    
+                       }
+                   })
+               }
+           })
+        }
+})
+
+app.get('/signup',(req,res)=>{
+    res.render('signup')
 })
 
 app.get('/login',(req,res)=>{
-    res.render('signin',{
-        message:" "
-     })
+    res.render('signin')
 })
 
 app.get('/userlogin',(req,res)=>{
@@ -84,15 +136,17 @@ app.get('/userlogin',(req,res)=>{
     var lpass= req.query.password;
 
     userRegister.find({email:lname,password:lpass},(err,user)=>{
+        let errors=[]
         if(err)
         {
             throw err
         }
         console.log(user)
         if(user.length==0)
-        {
+        {  
+            errors.push({text:'Invalid email or password '})
             res.render('signin',{
-                message:"Invalid email or password "
+                errors:errors
             })
         }
         else{
@@ -207,6 +261,6 @@ app.get('/logout' ,auth, function(req,res){
 		})
     })
 
-app.listen(3000,()=>{
+app.listen(port,()=>{
     console.log('server on')
 })
